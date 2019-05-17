@@ -1,0 +1,202 @@
+<!--Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<base th:href="${#request.getContextPath() + '/'}"/>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>用户登录</title>
+	<!-- Meta tag Keywords -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="Triple Forms Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript">
+		addEventListener("load", function () {
+			setTimeout(hideURLbar, 0);
+		}, false);
+
+		function hideURLbar() {
+			window.scrollTo(0, 1);
+		}
+
+		$(function () {
+			$("#getcode").click(function () {
+				var email = $("#email").val();
+				$.ajax({
+					url: "/user/sendcode",
+					type: "POST",
+					data: {"email":email},
+					success: function (msg) {
+						alert(msg)
+					}
+				});
+			})
+		})
+
+		$(function () {
+			$(".getcode").click(function () {
+				var email = $(".getemail").val();
+				$.ajax({
+					url: "/user/sendcode",
+					type: "POST",
+					data: {"email":email},
+					success: function (msg) {
+						alert(msg);
+					}
+				});
+			})
+		})
+
+		var flag = "0";
+		function checkCodeFn() {
+			 var code = $(".code").val();
+			 $.ajax({
+				 url: "/user/checkoutcode",
+				 type: "POST",
+				 data: {"code":code},
+				 success: function (data) {
+					 flag = data;
+				 }
+			 });
+		}
+
+		function isCommit() {
+			if(flag == "1"){
+				$.ajax({
+					//几个参数需要注意一下
+					type: "POST",//方法类型
+					dataType: "json",//预期服务器返回的数据类型
+					url: "/user/register" ,//url
+					data: $('#form1').serialize(),
+					success: function (result) {
+						if(result == "section1"){
+							$(section1).innerHTML;
+						}else {
+							$(section2).innerHTML;
+						}
+					},
+				});
+			}else {
+				alert("验证码有误，请重新输入");
+			}
+		}
+		
+	</script>
+	<!-- Meta tag Keywords -->
+
+	<!-- css files -->
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	<!-- Style-CSS -->
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<!-- Font-Awesome-Icons-CSS -->
+	<!-- //css files -->
+
+	<!-- web-fonts -->
+	<link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext"
+	 rel="stylesheet">
+	<!-- //web-fonts -->
+</head>
+
+<body>
+	<div class="main-bg">
+		<!-- title -->
+		<h1>用户登录</h1>
+		<!-- //title -->
+		<div class="sub-main-w3">
+			<div class="image-style">
+
+			</div>
+			<!-- vertical tabs -->
+			<div class="vertical-tab">
+				<div id="section1" class="section-w3ls">
+					<input type="radio" name="sections" id="option1" checked>
+					<label for="option1" class="icon-left-w3pvt"><span class="fa fa-user-circle"
+																	   aria-hidden="true"></span>登录</label>
+					<article>
+						<form action="/user/login" method="post">
+							<h3 class="legend">用户登录</h3>
+							<div class="input">
+								<span class="fa fa-envelope-o" aria-hidden="true"></span>
+								<input type="text" placeholder="Username" name="username" required />
+							</div>
+							<div class="input">
+								<span class="fa fa-key" aria-hidden="true"></span>
+								<input type="password" placeholder="Password" name="password" required />
+							</div>
+							<button type="submit" class="btn submit">登录</button>
+						</form>
+					</article>
+				</div>
+				<div id="section2" class="section-w3ls">
+					<input type="radio" name="sections" id="option2">
+					<label for="option2" class="icon-left-w3pvt"><span class="fa fa-pencil-square"
+																	   aria-hidden="true"></span>注册</label>
+					<article>
+						<form id="form1" action="#" method="#">
+							<h3 class="legend">用户注册</h3>
+							<div class="input">
+								<span class="fa fa-user-o" aria-hidden="true"></span>
+								<input type="text" placeholder="用户名" name="username" required />
+							</div>
+							<div class="input">
+								<span class="fa fa-key" aria-hidden="true"></span>
+								<input type="password" placeholder="密码" name="password" required />
+							</div>
+							<div class="input">
+								<span  aria-hidden="true"></span>
+								<input type="text" placeholder="昵称" name="nickname" required />
+							</div>
+							<div class="input">
+								<span  aria-hidden="true"></span>
+								<input type="text" placeholder="手机号码" name="phone" required />
+							</div>
+							<div class="input" >
+								<span  aria-hidden="true" ></span>
+								<input id="email" type="text" placeholder="邮箱" name="email" required />
+
+							</div>
+							<div class="input">
+								<button id="getcode" type="button" style=" background-color: orange;
+								width: 200px;height: 30px;color: black">发送验证码至邮箱</button>&ensp;&ensp;
+								<input type="text" class="code" name="code" placeholder="请输入邮箱接收到的验证码"
+									   onblur="checkCodeFn()"/>
+							</div>
+							<button  class="btn submit" onclick="isCommit()">注册</button>
+						</form>
+					</article>
+				</div>
+				<div id="section3" class="section-w3ls">
+					<input type="radio" name="sections" id="option3">
+					<label for="option3" class="icon-left-w3pvt"><span class="fa fa-lock" aria-hidden="true"></span>
+						忘记密码?</label>
+					<article>
+						<form action="/user/tosetpassword" method="post">
+							<h3 class="legend last">重置密码</h3>
+							<p class="para-style">请在下面输入您注册的电子邮件地址，我们会给您发送一封带有密码找回验证码的电子邮件</p>
+							<div class="input">
+								<span class="fa fa-envelope-o" aria-hidden="true"></span>
+								<input class="getemail" type="email" placeholder="Email" name="email" required />
+							</div>
+							<div class="input">
+								<button class="getcode" type="button" style=" background-color: orange;
+								width: 200px;height: 30px;color: black">发送验证码至邮箱</button>&ensp;&ensp;
+								<input type="text" class="code" name="code" placeholder="请输入邮箱接收到的验证码"
+									   onblur="checkCodeFn()"/>
+							</div>
+							<button type="submit" class="btn submit last-btn">发送改密申请</button>
+						</form>
+					</article>
+				</div>
+			</div>
+			<!-- //vertical tabs -->
+			<div class="clear"></div>
+		</div>
+	</div>
+
+</body>
+
+</html>

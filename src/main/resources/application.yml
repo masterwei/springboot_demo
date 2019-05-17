@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    url: jdbc:mysql:///shop1810
+    username: root
+    password: 123
+    driver-class-name: com.mysql.jdbc.Driver
